@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API de Usuarios</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>API de Usuarios</h1>
+        <p>Esta es una interfaz para interactuar con la API de usuarios.</p>
+
+        <!-- Sección de la lista de usuarios -->
+        <h2>Lista de Usuarios</h2>
+        <ul id="user-list"></ul>
+
+        <!-- Sección para crear un nuevo usuario -->
+        <h2>Crear Nuevo Usuario</h2>
+        <form id="create-user-form">
+            <input type="text" id="user-name" placeholder="Nombre del usuario" required >
+            <input type="text" id="user-email" placeholder="Email del usuario" required>
+            <input type="number" id="user-age" placeholder="Edad del usuario">
+            <input type="text" id="user-street" placeholder="Calle">
+            <input type="text" id="user-city" placeholder="Ciudad">
+            <input type="text" id="user-country" placeholder="País">
+            <button type="submit">Crear Usuario</button>
+        </form>
+
+        <!-- Sección para obtener recomendaciones de usuarios -->
+        <h2>Obtener Recomendaciones</h2>
+        <form id="get-recommendations-form">
+            <input type="text" id="user-id-recommendations" placeholder="ID del usuario" required>
+            <button type="submit">Obtener Recomendaciones</button>
+        </form>
+        <ul id="recommendations-list"></ul>
+
+        <!-- Sección para obtener la reputación de un usuario -->
+        <h2>Obtener Reputación</h2>
+        <form id="get-reputation-form">
+            <input type="text" id="user-id-reputation" placeholder="ID del usuario" required>
+            <button type="submit">Obtener Reputación</button>
+        </form>
+        <div id="reputation-result"></div>
+
+
+        <!-- Sección para agregar una actividad a un usuario -->
+        <h2>Agregar Actividad a un Usuario</h2>
+        <form id="add-activity-form">
+            <input type="text" id="user-id-activity" placeholder="ID del usuario" required>
+            <select id="activity-action" required>
+                <option value="Inició sesión">Inició sesión</option>
+                <option value="Actualizó su perfil">Actualizó su perfil</option>
+                <option value="Registró un nuevo comentario">Registró un nuevo comentario</option>
+                <option value="Comentó en un post">Comentó en un post</option>
+                <option value="Subió un video">Subió un video</option>
+                <option value="Publicó una foto">Publicó una foto</option>
+            </select>
+            <button type="submit">Agregar Actividad</button>
+        </form>
+        <div id="activity-result"></div>
+
+        <!-- Sección para visualizar las actividades de un usuario -->
+        <h2>Visualizar Actividades de un Usuario</h2>
+        <form id="view-activities-form">
+            <input type="text" id="user-id-view-activities" placeholder="ID del usuario" required>
+            <button type="submit">Ver Actividades</button>
+        </form>
+        <ul id="activities-list"></ul>
+
+        <!-- Sección de documentación de la API -->
+        <h2>Documentación de la API</h2>
+        <div class="api-docs">
+            <h3>Obtener todos los usuarios</h3>
+            <pre><code>GET /apiV1/users</code></pre>
+            <p>Devuelve una lista de todos los usuarios.</p>
+
+            <h3>Obtener un usuario por ID</h3>
+            <pre><code>GET /apiV1/users/{id}</code></pre>
+            <p>Devuelve un usuario específico por su ID.</p>
+
+            <h3>Crear un nuevo usuario</h3>
+            <pre><code>POST /apiV1/users</code></pre>
+            <p>Crea un nuevo usuario. El cuerpo de la solicitud debe ser un JSON con los campos <code>nombre</code> y <code>correo</code>.</p>
+            <pre><code>{
+                "nombre": "Juan Pérez",
+                "correo": "juan@example.com",
+                "edad": 25,
+                "esAdministrador": false,
+                "intereses": ["Programación", "IA", "Seguridad Informática"],
+                "direccion": {
+                  "calle": "Av. Principal 123",
+                  "ciudad": "Tepic",
+                  "pais": "México"
+                },
+                "actividad": [
+                ]
+              }
+              </code></pre>
+
+            <h3>Actualizar un usuario</h3>
+            <pre><code>PUT /apiV1/users/{id}</code></pre>
+            <p>Actualiza un usuario existente. El cuerpo de la solicitud debe ser un JSON con los campos <code>nombre</code> y <code>correo</code>.</p>
+            <pre><code>{
+    "nombre": "Nombre actualizado",
+    "correo": "email_actualizado@example.com"
+}</code></pre>
+
+            <!--  PATCH-->
+            <h3>Actualizar datos de un usuario</h3>
+            <pre><code>PATCH /apiV1/users/{id}</code></pre>
+            <p>Actualizar datos especificos de un usuario utilizando su ID .</p>
+            <pre><code>
+                {
+                    "edad": 26,
+                    "intereses": ["Programación", "IA", "Seguridad Informática", "Desarrollo Web"]
+                }
+            </code></pre>
+            
+
+            <h3>Eliminar un usuario</h3>
+            <pre><code>DELETE /apiV1/users/{id}</code></pre>
+            <p>Elimina un usuario existente por su ID.</p>
+        </div>
+
+        <div class="api-docs">
+            <!-- (Documentación existente aquí) -->
+        
+            <h3>Agregar una Actividad a un Usuario</h3>
+            <pre><code>POST /apiV1/users/{id}/activity</code></pre>
+            <p>Agrega una nueva actividad a un usuario específico. El cuerpo de la solicitud debe ser un JSON con el campo <code>accion</code>, que debe ser una de las siguientes acciones permitidas:</p>
+            <ul>
+                <li><code>Inició sesión</code></li>
+                <li><code>Actualizó su perfil</code></li>
+                <li><code>Registró un nuevo comentario</code></li>
+                <li><code>Comentó en un post</code></li>
+                <li><code>Subió un video</code></li>
+                <li><code>Publicó una foto</code></li>
+            </ul>
+            <pre><code>{
+                "accion": "Inició sesión"
+            }</code></pre>
+            <p>Respuesta exitosa:</p>
+            <pre><code>{
+                "message": "Actividad agregada correctamente",
+                "actividad": {
+                    "fecha": "2023-10-05T12:34:56.789Z",
+                    "accion": "Inició sesión"
+                }
+            }</code></pre>
+
+
+            <!--Funcionalidades-->
+            <h3>Obtener la reputacion por usuario (ID)</h3>
+            <pre><code>GET /apiV1/users/reputation/{id}</code></pre>
+            <p>Obten la reputacion de un usuario, basada en su registro de actividad .</p>
+            <pre><code>
+                {
+                    "user": {
+                        "nombre": "María González",
+                        "actividad": [
+                            {
+                                "accion": "Registró un nuevo comentario",
+                                "fecha": "2024-02-16T11:00:00Z"
+                            },
+                            {
+                                "fecha": "2024-02-16T12:00:00Z",
+                                "accion": "Actualizó su perfil"
+                            }
+                        ]
+                    },
+                    "reputacion": 2,
+                    "diasSinActividad": 395.3436221180556
+                }
+            </code></pre>
+
+
+            <!--OBTENER LAS RECOMENDACIONES DEL USUARIO-->
+            <h3>Obtener recomendaciones de contactos por usuario (ID)</h3>
+            <pre><code>GET /apiV1/users/recommend/{id}</code></pre>
+            <p>Obtener una lista de contactos de interes, basada en intereses y ubicacion .</p>
+            <pre><code>
+                {
+                    "recomendaciones": [
+                        {
+                            "id": "XMTf2wGi3rxMvfLBsZdh",
+                            "nombre": "Carlos López",
+                            "intereses": [
+                                "Programación",
+                                "Seguridad Informática",
+                                "Deportes"
+                            ]
+                        },
+                        {
+                            "id": "avHe9hjKXcH5mB9UxwDt",
+                            "nombre": "Ricardo Hernández",
+                            "intereses": [
+                                "Lectura",
+                                "Programación",
+                                "Cocina"
+                            ]
+                        }...
+                    ]
+                }
+            </code></pre>
+        </div>
+
+        
+    </div>
+    
+
+    <script src="script.js"></script>
+</body>
+</html>
